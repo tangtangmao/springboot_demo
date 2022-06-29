@@ -30,7 +30,7 @@ stages{
               }
          }
       stage('启动镜像'){
-             steps{ echo'容器启动成功'
+             steps{ echo'容器启动成功！'
              }
          }
 
