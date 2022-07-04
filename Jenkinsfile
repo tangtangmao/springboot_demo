@@ -15,7 +15,7 @@ stages{
     stage('下载代码'){
 
         steps{
-            checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'aa6e765f-4257-4d90-988d-978b7fbcd1c6', url: 'git@github.com:tangtangmao/springboot_demo.git']]])
+            checkout([$class: 'GitSCM', branches: [[name: '$tag']], extensions: [], userRemoteConfigs: [[credentialsId: 'aa6e765f-4257-4d90-988d-978b7fbcd1c6', url: 'git@github.com:tangtangmao/springboot_demo.git']]])
             echo'下载代码成功'
 
         }
@@ -32,7 +32,7 @@ stages{
 
             mv ./target/*.jar ./docker/
             pwd
-            docker build -t ${JOB_NAME}:v1.0.0 ./docker/
+            docker build -t ${JOB_NAME}:$tag ./docker/
             '''
             echo'镜像制作成功'
         }
@@ -40,8 +40,8 @@ stages{
      stage('上传到harbor服务器'){
             steps{
                 sh '''docker login -u ${harborUser} -p ${harborPasswod} ${harborurl}
-                docker tag ${JOB_NAME}:v1.0.0 ${harborurl}/${harborRepo}/${JOB_NAME}:v1.0.0
-                docker push ${harborurl}/${harborRepo}/${JOB_NAME}:v1.0.0'''
+                docker tag ${JOB_NAME}:$tag ${harborurl}/${harborRepo}/${JOB_NAME}:$tag
+                docker push ${harborurl}/${harborRepo}/${JOB_NAME}:$tag'''
                 echo'上传私服成功'
             }
         }
