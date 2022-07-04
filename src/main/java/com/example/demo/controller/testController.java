@@ -10,6 +10,6 @@ public class testController {
    @RequestMapping("/test")
    @ResponseBody
     public String hello(){
-       return "hello,SpringBoot  --v1.0.0";
+       return "hello,SpringBoot  --v4.0.0";
    }
 }
